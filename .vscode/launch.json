@@ -13,7 +13,7 @@
 			],
 			"preLaunchTask": "${defaultBuildTask}",
 			"env": {
-				"OPENAI_API_KEY": "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"
+				"OPENAI_API_KEY": "process.env.OPENAI_API_KEY"
 			}
 		},
 		{
@@ -29,7 +29,7 @@
 			],
 			"preLaunchTask": "${defaultBuildTask}",
 			"env": {
-				"OPENAI_API_KEY": "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"
+				"OPENAI_API_KEY": "process.env.OPENAI_API_KEY"
 			}
 		}
 	]

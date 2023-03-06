@@ -25,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 async function explainCode(code: string){
-	const apikey = "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";
+	const apikey = process.env.OPENAI_API_KEY;
 	if(!apikey){
 		throw new Error('OpenAI API key not found');
 	}
