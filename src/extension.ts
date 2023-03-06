@@ -1,26 +1,50 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+/* eslint-disable @typescript-eslint/naming-convention */
 import * as vscode from 'vscode';
+import * as openai from 'openai';
+import { Configuration, OpenAIApi } from 'openai';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "devsh" is now active!');
+	let disposable = vscode.commands.registerCommand('extension.explainCodeSnippet', async() => {
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('devsh.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from devsh!');
+
+	const editor = vscode.window.activeTextEditor;
+	if(editor) {
+		const selectedText= editor.document.getText(editor.selection);
+		await explainCode(selectedText);
+	}
+	else{
+		vscode.window.showInformationMessage('No text selected');
+	}
 	});
 
 	context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
+async function explainCode(code: string){
+	const apikey = "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";
+	if(!apikey){
+		throw new Error('OpenAI API key not found');
+	}
+	
+		const config = new Configuration({
+			apiKey: apikey
+		});
+
+	const openai = new OpenAIApi(config);
+	const prompt = `explain the ${code} in plain text english`;
+	const response = await openai.createCompletion({
+		model: 'text-davinci-003',
+		prompt: `${prompt}`,
+		temperature: 0.4,
+		max_tokens: 250,
+	});
+	
+	const output = response.data.choices[0].text;
+	vscode.window.showInformationMessage(`${output}`); 
+
+}
 export function deactivate() {}
