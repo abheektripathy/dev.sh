@@ -1,10 +1,10 @@
-## Features
+## Functionalities.
 
-### Feature-1 -  an intelligent code explainer powered by the GPT-3 model. This feature allows developers to select a block of code and request an explanation in plain English. 
+An intelligent code explainer powered by the GPT-3 model. This feature allows developers to select a block of code and request an explanation in plain English. 
 
-### Feature-2 - a search bar that converts user inputs in plain English to Git and Docker commands. Avoid the hassle of memorizing Git and Docker commands.
+A search bar that converts user inputs in plain English to Git and Docker commands. Avoid the hassle of memorizing Git and Docker commands.
 
-### Feature-3 - provides GitHub Actions file templates that allow developers to automate their workflows. Customize them to fit their specifc needs.
+Provides GitHub Actions file templates that allow developers to automate their workflows. Customize them to fit their specifc needs.
 
 
 ## Requirements
