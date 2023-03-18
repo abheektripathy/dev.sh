@@ -1,71 +1,110 @@
-# devsh README
+## Functionalities.
 
-This is the README for your extension "devsh". After writing up a brief description, we recommend including the following sections.
+An intelligent code explainer powered by the GPT-3 model. This feature allows developers to select a block of code and request an explanation in plain English. 
 
-## Features
+A search bar that converts user inputs in plain English to Git and Docker commands. Avoid the hassle of memorizing Git and Docker commands.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Provides GitHub Actions file templates that allow developers to automate their workflows. Customize them to fit their specifc needs.
 
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+There are 4 things you require: 
 
-## Extension Settings
+* NodeJS
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+* yeoman
 
-For example:
+* vs code generator
 
-This extension contributes the following settings:
+* OpenAI API key
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
 
-## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## Setting up the extension 
 
-## Release Notes
+Run the following commands: 
 
-Users appreciate release notes as you update your extension.
+* `npm install -g yo generator-code`
 
-### 1.0.0
 
-Initial release of ...
+* `yo code`
 
-### 1.0.1
+## Testing the default extension setup
 
-Fixed issue #.
 
-### 1.1.0
+Now, to test your extension press f5 or simoly click on the bufg button in the left panel of VSCode and click on "Run and Debug". 
 
-Added features X, Y, and Z.
+Press `Ctrl+Shift+P` on Windows or Linux / `Cmd+Shift+P` on MacOS to open command pallett, run hello world, it's working.
+
+
+## OpenAI Integration in extension.ts
+
+Include the following lines of code: 
+
+* Make an editor : 
+
+
+`const editor = vscode.window.activeTextEditor;`
+
+
+* To select the highlighted code:
+
+
+`const selectedText= editor.document.getText(editor.selection);`
+
+ await explainCode(selectedText);`
+
+
+* After setting up the editor for selection, it's time to get your API key from [OpenAI](https://platform.openai.com/). An store it in the `.env` file as : `OPENAI_AI_APIKEY={your API key}` .
+
+* `npm install openai`
+
+* Import it as `import { Configuration, OpenAIApi } from "openai";`
+
+Configure your apikey: 
+`const configuration = new Configuration({
+				apiKey: OPENAI_API_KEY,
+			});`
+
+This is the response const that stores the model-name, prompt, temperature, max_tokens of the OpenAI-model you are using in the extension.
+
+`const response = await openai.createCompletion({
+
+  model: "text-davinci-003",
+  
+	prompt: `${prompt}`,
+  
+	temperature: 0.4,
+  
+	max_tokens: 250;
+  
+	});`
+  
+ We can get the ouput in the variable 
+`response.data.choices[0].text`.
+
+
+## Package.json
+
+Update your package.json by adding 
+
+`"commands": [
+            {
+                "command": "Your command",
+                "title": "Your command title"
+            }`
+            
+            
+ inside the `contributes` tag.
+## Releases
+
+### v0.1
+Fixes issue #1
+
+Implements the #1 feature - Explain Code Snippet using GPT-3 Model.
 
 ---
 
-## Following extension guidelines
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+And it's done, your vscode extension, a search bar for commands and Github Actions template are all set up - for developers!
