@@ -8,6 +8,7 @@ function activate(context) {
         enableScripts: true,
         retainContextWhenHidden: true,
     });
+    //why is this not workiung
     // Set the HTML content for the panel
     panel.webview.html = '<h1>Hello, World!</h1>';
     // Add the panel to the sidebar

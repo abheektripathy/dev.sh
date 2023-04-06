@@ -11,7 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
 		retainContextWhenHidden: true,
 	  }
 	);
-  
+  //why is this not workiung
 	// Set the HTML content for the panel
 	panel.webview.html = '<h1>Hello, World!</h1>';
   
