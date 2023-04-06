@@ -1,0 +1,82 @@
+{
+  "name": "devsh",
+  "displayName": "devsh",
+  "description": "Streamline your developer workflow",
+  "publisher": "devsh studios",
+  "version": "0.0.2",
+  "engines": {
+    "vscode": "^1.64.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:vscode-webview-extension-with-react.helloWorld",
+    "onView:left-panel-webview"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "vscode-webview-extension-with-react.helloWorld",
+        "title": "Hello World"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "webview",
+          "title": "Example for webview",
+          "icon": "./assets/extension-icon.png"
+        }
+      ]
+    },
+    "views": {
+      "webview": [
+        {
+          "type": "webview",
+          "id": "left-panel-webview",
+          "name": "Webview",
+          "icon": "src/assets/extension-icon.png"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "npm run tsc -p ./",
+    "watch": "tsc -watch -p ./ && npm run compile",
+    "vscode:package": "vsce package",
+    "webpack": "rm -rf ./dist/* && webpack --mode development",
+    "package": "rm -rf *.vsix && npm run webpack && vsce package"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "14.x",
+    "@types/vscode": "^1.64.0",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
+    "@vscode/test-electron": "^2.1.2",
+    "eslint": "^8.9.0",
+    "glob": "^7.2.0",
+    "mocha": "^9.2.1",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.5",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2"
+  },
+  "dependencies": {
+    "@types/react-dom": "^17.0.11",
+    "dotenv-webpack": "^7.1.0",
+    "module-alias": "^2.2.2",
+    "path": "^0.12.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "_moduleAliases": {
+    "utils": "dist/utils",
+    "providers": "dist/providers",
+    "components": "dist/components",
+    "constant": "dist/constant.js"
+  }
+}
