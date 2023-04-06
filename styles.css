@@ -1,0 +1,9 @@
+input[type="text"] {
+	display: block;
+	margin: 0 auto;
+}
+
+button {
+	display: block;
+	margin: 10px auto;
+}
