@@ -4,7 +4,7 @@
         vscode.postMessage({ 
             action: POST_MESSAGE_ACTION.SHOW_WARNING_LOG, 
             data: {
-                message: "You just clicked on the left panel webview button"
+                message: "add your api key"
         }});
     });
 }());
