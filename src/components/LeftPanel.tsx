@@ -2,7 +2,6 @@
 import Button from "components/Button";
 import { useState } from "react";
 
-
 interface LeftPanelProp {
 	message: string;
 }
@@ -16,27 +15,65 @@ function LeftPanel({ message }: LeftPanelProp) {
 
 	return (
 		<div className="panel-wrapper">
+			<br />
 			<span className="panel-info">
 				Streamline your Developer Worflows.
 			</span>
-            <br></br>
+			<br></br>
 			<div className="input-box">
 				<label htmlFor="inputEN">What's on your mind?</label>
-                <br></br>
+				<br></br>
 				<input
 					type="text"
 					id="inputEN"
 					value={inputEN}
-                    placeholder="how to deploy to dockerhub? "
+					placeholder="how to deploy to dockerhub? "
 					onChange={handleInputChange}
 					className="input-field" // add a class for styling the input field
 				/>
 			</div>
-            <div className="textarea-box">
-        <label htmlFor="textareaEN">Enter Code:</label>
-        <br />
+			<br />
+			<span>
+				{" "}
+				<Button></Button>        <button className='button' >
+            code it
+        </button>{" "}
+			</span>
+			<br />
+			<div className="input-box-a">
+				<label htmlFor="inputEN">Here's your code</label>
+				<br></br>
 
-      </div>
+				<textarea
+					id="inputEN"
+					value={inputEN}
+					placeholder="
+                        steps:
+                        - name: Checkout code
+                          uses: actions/checkout@v2
+                        - name: Login to DockerHub
+                          uses: docker/login-action@v1
+                          with:
+                            username: ${{ secrets.DOCKER_USERNAME }}
+                            password: ${{ secrets.DOCKER_PASSWORD }}
+                        - name: Build and push Docker image
+                          uses: docker/build-push-action@v2
+                          with:
+                            push: true
+                            tags: username/repo:latest
+                     "
+					onChange={handleInputChange}
+					className="input-field-a" // add a class for styling the input field
+				/>
+			</div>
+			{/* <div className="input-box">
+            <pre>
+				<textarea
+					className="input-field"
+					defaultValue="// Your code here"
+				/>
+			</pre>
+            </div> */}
 		</div>
 	);
 }
