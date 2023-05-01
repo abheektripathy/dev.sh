@@ -6,7 +6,7 @@ import * as ReactDOMServer from "react-dom/server";
 export class LeftPanelWebview implements WebviewViewProvider {
 	constructor(
 		private readonly extensionPath: Uri,
-		private data: any,
+		private data: string,
 		private _view: any = null
 	) {}
     private onDidChangeTreeData: EventEmitter<any | undefined | null | void> = new EventEmitter<any | undefined | null | void>();
@@ -82,7 +82,7 @@ export class LeftPanelWebview implements WebviewViewProvider {
                     ${
                         
                         ReactDOMServer.renderToString((
-							<LeftPanel message={"Tutorial for Left Panel Webview in VSCode extension"}></LeftPanel>
+							<LeftPanel message={this.data}></LeftPanel>
 						))
                     }
 					<script nonce="${nonce}" type="text/javascript" src="${constantUri}"></script>

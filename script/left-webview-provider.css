@@ -9,8 +9,33 @@
     font-weight: bold;
     line-height: 2rem;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+    align-items: left;
     margin: 1rem;
     text-align: center;
 }
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  .input-field {
+    padding: 5px 14px;
+    font-size: 14px;
+    border-radius: 3px;
+    border: 1px solid #cfcfcf00;
+    background-color: #f3f3f317;
+    color: #fff;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  .input-field:focus {
+    border-color: #7f7f7f;
+    background-color: #cfcfcf00;
+    box-shadow: 0 0 3px #7f7f7f;
+  }
+  
+  
