@@ -1,5 +1,9 @@
 import * as vscode from 'vscode';
 import axios from "axios";
+import * as dotenv from 'dotenv';
+dotenv.config();
+import * as openai from 'openai';
+import { Configuration, OpenAIApi } from 'openai';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -11,17 +15,50 @@ export function activate(context: vscode.ExtensionContext) {
 //basically add open ai api or setup a express server, to do it for you.
 async function fetchCodeByPrompt(prompt: string) {
 	
-	return prompt + "terim mummy";
-	const resp = await axios.post("http://localhost:3000/codeit", {
-		prompt
-	});
+	const apikey = process.env.OPENAI_API_KEY;
+	if(!apikey){
+		throw new Error('OpenAI API key not found');
+	}
+	
+		const config = new Configuration({
+			apiKey: apikey
+		});
 
-	return resp.data;
+	const openai = new OpenAIApi(config);
+	const code = `just give only code for this question, only code no english, neither at the start nor at the end, just code, here's the question- ${prompt}`;
+	const response = await openai.createCompletion({
+		model: 'text-davinci-003',
+		prompt: `${code}`,
+		temperature: 0.4,
+		max_tokens: 250,
+	});
+	
+	const output = response.data.choices[0].text;
+	return output;
 }
 
+
 async function explainCode(selectedText: string) {
-	console.log(selectedText, "rand");
-	return selectedText;
+	const apikey = process.env.OPENAI_API_KEY;
+	if(!apikey){
+		throw new Error('OpenAI API key not found');
+	}
+	
+		const config = new Configuration({
+			apiKey: apikey
+		});
+
+	const openai = new OpenAIApi(config);
+	const prompt = `Explain this code in english in 2 lines max ${selectedText}`;
+	const response = await openai.createCompletion({
+		model: 'text-davinci-003',
+		prompt: `${prompt}`,
+		temperature: 0.4,
+		max_tokens: 250,
+	});
+	
+	const output = response.data.choices[0].text;
+	return output;
 }
 
 class WebViewProvider implements vscode.WebviewViewProvider {
@@ -70,15 +107,14 @@ class WebViewProvider implements vscode.WebviewViewProvider {
 						if(editor) {
 							const selectedText= editor.document.getText(editor.selection);
 							console.log(selectedText, "selectedtexttt");
-							explainCode(selectedText).then(explainedcode => {
-								
 
-								vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${explainedcode} /n #${explainedcode}`));
+							explainCode(selectedText).then(explainedcode => {
+								vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${explainedcode}\n${selectedText} `));
 							});
 						}
 						else{
 							vscode.window.showInformationMessage('No text selected');
-							const res = "no text";
+							const res = "no text selected";
 						}
 					}
 
@@ -127,7 +163,7 @@ class WebViewProvider implements vscode.WebviewViewProvider {
 				<div class="panel-wrapper"> 
     <br>
     <span class="panel-info">
-        Streamline your Developer Worflows.
+        Streamline your Developer Workflows.
     </span>
     <br>
     <div class="input-box">

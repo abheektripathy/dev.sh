@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.activate = void 0;
 const vscode = require("vscode");
-const axios_1 = require("axios");
+const dotenv = require("dotenv");
+dotenv.config();
+const openai_1 = require("openai");
 function activate(context) {
     const provider = new WebViewProvider(context.extensionUri);
     context.subscriptions.push(vscode.window.registerWebviewViewProvider(WebViewProvider.viewType, provider));
@@ -10,15 +12,42 @@ function activate(context) {
 exports.activate = activate;
 //basically add open ai api or setup a express server, to do it for you.
 async function fetchCodeByPrompt(prompt) {
-    return prompt + "terim mummy";
-    const resp = await axios_1.default.post("http://localhost:3000/codeit", {
-        prompt
+    const apikey = process.env.OPENAI_API_KEY;
+    if (!apikey) {
+        throw new Error('OpenAI API key not found');
+    }
+    const config = new openai_1.Configuration({
+        apiKey: apikey
     });
-    return resp.data;
+    const openai = new openai_1.OpenAIApi(config);
+    const code = `just give only code for this question, only code no english, neither at the start nor at the end, just code, here's the question- ${prompt}`;
+    const response = await openai.createCompletion({
+        model: 'text-davinci-003',
+        prompt: `${code}`,
+        temperature: 0.4,
+        max_tokens: 250,
+    });
+    const output = response.data.choices[0].text;
+    return output;
 }
 async function explainCode(selectedText) {
-    console.log(selectedText, "rand");
-    return selectedText;
+    const apikey = process.env.OPENAI_API_KEY;
+    if (!apikey) {
+        throw new Error('OpenAI API key not found');
+    }
+    const config = new openai_1.Configuration({
+        apiKey: apikey
+    });
+    const openai = new openai_1.OpenAIApi(config);
+    const prompt = `Explain this code in english in 2 lines max ${selectedText}`;
+    const response = await openai.createCompletion({
+        model: 'text-davinci-003',
+        prompt: `${prompt}`,
+        temperature: 0.4,
+        max_tokens: 250,
+    });
+    const output = response.data.choices[0].text;
+    return output;
 }
 class WebViewProvider {
     constructor(_extensionUri) {
@@ -53,12 +82,12 @@ class WebViewProvider {
                             const selectedText = editor.document.getText(editor.selection);
                             console.log(selectedText, "selectedtexttt");
                             explainCode(selectedText).then(explainedcode => {
-                                vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${explainedcode} /n #${explainedcode}`));
+                                vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${explainedcode}\n${selectedText} `));
                             });
                         }
                         else {
                             vscode.window.showInformationMessage('No text selected');
-                            const res = "no text";
+                            const res = "no text selected";
                         }
                     }
             }
@@ -98,7 +127,7 @@ class WebViewProvider {
 				<div class="panel-wrapper"> 
     <br>
     <span class="panel-info">
-        Streamline your Developer Worflows.
+        Streamline your Developer Workflows.
     </span>
     <br>
     <div class="input-box">
