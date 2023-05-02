@@ -1,0 +1,160 @@
+body {
+	background-color: transparent;
+}
+
+.color-list {
+	list-style: none;
+	padding: 0;
+}
+
+.color-entry {
+	width: 100%;
+	display: flex;
+	margin-bottom: 0.4em;
+	border: 1px solid var(--vscode-input-border);
+}
+
+.color-preview {
+	width: 2em;
+	height: 2em;
+}
+
+.color-preview:hover {
+	outline: inset white;
+}
+
+.color-input {
+	display: block;
+	flex: 1;
+	width: 100%;
+	color: var(--vscode-input-foreground);
+	background-color: var(--vscode-input-background);
+	border: none;
+	padding: 0 0.6em;
+}
+
+.add-color-button {
+	display: block;
+	border: none;
+	margin: 0 auto;
+}
+
+.panel-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.panel-info {
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 2rem;
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    text-align: left;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  .input-field {
+    padding: 5px 14px;
+    font-size: 14px;
+    border-radius: 3px;
+    border: 1px solid #cfcfcf00;
+    background-color: #f3f3f317;
+    color: #fff;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  .input-field:focus {
+    border-color: #7f7f7f;
+    background-color: #cfcfcf00;
+    box-shadow: 0 0 3px #7f7f7f;
+  }
+
+
+  .input-box-a {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  .input-field-a {
+    padding: 5px 14px;
+    font-size: 10px;
+    min-height: 350px;
+    border-radius: 3px;
+    border: 1px solid #727172;
+    background-color: #1b1a1a;
+    color: #fff;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  .input-field-a:focus {
+    border-color: #727172;
+    background-color: #1b1a1a;
+    box-shadow: 0 0 3px #0000001b;
+  }
+  
+  
+  
+  .hljs {
+    padding: 1em;
+    background-color: #f8f8f8;
+    border-radius: 10px;
+    font-size: 1.2em;
+  }
+  
+  .rounded {
+    border-radius: 10px;
+  }
+
+
+  .button {
+    color: white;
+    background-color: #2d3748;
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 0.625rem 1.25rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .button:hover,
+  .button:focus {
+    background-color: #1a202c;
+    outline: none;
+  }
+  
+  .button:focus {
+    box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.45);
+  }
+  
+  .dark button {
+    background-color: #2d3748;
+  }
+  
+  .dark button:hover,
+  .dark button:focus {
+    background-color: #4a5568;
+  }
+  
+  .dark button:focus {
+    box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.45);
+    border-color: #718096;
+  }
+  
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+}
