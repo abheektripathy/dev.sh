@@ -3,17 +3,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.activate = void 0;
 const vscode = require("vscode");
 const dotenv = require("dotenv");
-dotenv.config();
 const openai_1 = require("openai");
+dotenv.config();
 function activate(context) {
     const provider = new WebViewProvider(context.extensionUri);
     context.subscriptions.push(vscode.window.registerWebviewViewProvider(WebViewProvider.viewType, provider));
 }
 exports.activate = activate;
 //basically add open ai api or setup a express server, to do it for you.
-async function fetchCodeByPrompt(prompt) {
-    const apikey = process.env.OPENAI_API_KEY;
+async function fetchCodeByPrompt(prompt, key) {
+    const apikey = key;
     if (!apikey) {
+        vscode.window.showInformationMessage('No api key');
         throw new Error('OpenAI API key not found');
     }
     const config = new openai_1.Configuration({
@@ -30,9 +31,10 @@ async function fetchCodeByPrompt(prompt) {
     const output = response.data.choices[0].text;
     return output;
 }
-async function explainCode(selectedText) {
-    const apikey = process.env.OPENAI_API_KEY;
+async function explainCode(selectedText, key) {
+    const apikey = key;
     if (!apikey) {
+        vscode.window.showInformationMessage('no Api key');
         throw new Error('OpenAI API key not found');
     }
     const config = new openai_1.Configuration({
@@ -65,9 +67,20 @@ class WebViewProvider {
         webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
         webviewView.webview.onDidReceiveMessage(data => {
             switch (data.type) {
+                case 'setAPIKey':
+                    {
+                        if (data.value) {
+                            this.apiKey = data.value;
+                            console.log(this.apiKey, "jadhcja");
+                        }
+                        else {
+                            console.log("add something mf");
+                        }
+                        break;
+                    }
                 case 'codeIt':
                     {
-                        fetchCodeByPrompt(data.value).then(code => {
+                        fetchCodeByPrompt(data.value, this.apiKey).then(code => {
                             webviewView.webview.postMessage({
                                 type: 'codeItResp',
                                 value: code
@@ -81,14 +94,14 @@ class WebViewProvider {
                         if (editor) {
                             const selectedText = editor.document.getText(editor.selection);
                             console.log(selectedText, "selectedtexttt");
-                            explainCode(selectedText).then(explainedcode => {
+                            explainCode(selectedText, this.apiKey).then(explainedcode => {
                                 vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${explainedcode}\n${selectedText} `));
                             });
                         }
                         else {
-                            vscode.window.showInformationMessage('No text selected');
-                            const res = "no text selected";
+                            vscode.window.showInformationMessage('No editor active');
                         }
+                        break;
                     }
             }
         });
@@ -160,11 +173,13 @@ class WebViewProvider {
                 tags: username/repo:latest
          " class="input-field-a"></textarea>
     </div>
-    <!-- <div class="input-box">
-        <pre>
-            <textarea class="input-field" defaultValue="// Your code here"></textarea>
-        </pre>
-    </div> -->
+	<br/>
+	<span class="flex-row">
+	<div class="input-box">
+	<input type="text" id="inputAPIKey" value="" placeholder="Add your API key" class="input-field">
+</div>
+	<button class="buttonapi" id="submitAPIKey">Add</button>
+</span>
 </div>
 
 
