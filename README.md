@@ -1,24 +1,13 @@
-# Calico Colors — Webview View API Sample
+# Dev.sh
 
-Demonstrates VS Code's [webview view API](https://github.com/microsoft/vscode/issues/46585). This includes:
+`Streamline your developer workflows`
 
-- Contributing a webview based view to the explorer.
-- Posting messages from an extension to a webview view
-- Posting message from a webview to an extension  
-- Persisting state in the view.
-- Contributing commands to the view title.
+```py
+npm i 
+F5
+```
 
-## VS Code API
+![scaler-create-impact](https://user-images.githubusercontent.com/90976669/230470861-cc15dffc-1c90-422a-ac89-744a732b7a9d.gif)
 
-### `vscode` module
 
-- [`window.registerWebviewViewProvider`](https://code.visualstudio.com/api/references/vscode-api#window.registerWebviewViewProvider)
-
-## Running the example
-
-- Open this example in VS Code 1.49+
-- `npm install`
-- `npm run watch` or `npm run compile`
-- `F5` to start debugging
-
-In the explorer, expand the `Calico Colors` view.
+create-react-app with vscode through this [blog](https://medium.com/@luongquochuy1995/create-a-vs-code-left-panel-web-view-extension-using-react-e765fd901f64)
