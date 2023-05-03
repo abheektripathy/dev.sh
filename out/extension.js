@@ -11,9 +11,10 @@ function activate(context) {
 }
 exports.activate = activate;
 //basically add open ai api or setup a express server, to do it for you.
-async function fetchCodeByPrompt(prompt) {
-    const apikey = "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";
+async function fetchCodeByPrompt(prompt, key) {
+    const apikey = key;
     if (!apikey) {
+        vscode.window.showInformationMessage('No api key');
         throw new Error('OpenAI API key not found');
     }
     const config = new openai_1.Configuration({
@@ -30,9 +31,10 @@ async function fetchCodeByPrompt(prompt) {
     const output = response.data.choices[0].text;
     return output;
 }
-async function explainCode(selectedText) {
-    const apikey = "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";
+async function explainCode(selectedText, key) {
+    const apikey = key;
     if (!apikey) {
+        vscode.window.showInformationMessage('no Api key');
         throw new Error('OpenAI API key not found');
     }
     const config = new openai_1.Configuration({
@@ -68,8 +70,8 @@ class WebViewProvider {
                 case 'setAPIKey':
                     {
                         if (data.value) {
-                            const apikey = data.value;
-                            console.log(apikey, "jadhcja");
+                            this.apiKey = data.value;
+                            console.log(this.apiKey, "jadhcja");
                         }
                         else {
                             console.log("add something mf");
@@ -78,7 +80,7 @@ class WebViewProvider {
                     }
                 case 'codeIt':
                     {
-                        fetchCodeByPrompt(data.value).then(code => {
+                        fetchCodeByPrompt(data.value, this.apiKey).then(code => {
                             webviewView.webview.postMessage({
                                 type: 'codeItResp',
                                 value: code
@@ -92,13 +94,12 @@ class WebViewProvider {
                         if (editor) {
                             const selectedText = editor.document.getText(editor.selection);
                             console.log(selectedText, "selectedtexttt");
-                            explainCode(selectedText).then(explainedcode => {
+                            explainCode(selectedText, this.apiKey).then(explainedcode => {
                                 vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${explainedcode}\n${selectedText} `));
                             });
                         }
                         else {
-                            vscode.window.showInformationMessage('No text selected');
-                            const res = "no text selected";
+                            vscode.window.showInformationMessage('No editor active');
                         }
                         break;
                     }
@@ -177,7 +178,7 @@ class WebViewProvider {
 	<div class="input-box">
 	<input type="text" id="inputAPIKey" value="" placeholder="Add your API key" class="input-field">
 </div>
-	<button class="buttonapi" id="submitAPIkey">Add</button>
+	<button class="buttonapi" id="submitAPIKey">Add</button>
 </span>
 </div>
 

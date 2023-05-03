@@ -95,6 +95,7 @@ body {
     color: #fff;
     outline: none;
     transition: all 0.3s ease;
+    font-family: monospace;
   }
   
   .input-field-a:focus {
