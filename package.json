@@ -4,6 +4,7 @@
 	"version": "0.0.1",
 	"publisher": "AbheekTripathy",
 	"private": false,
+	"icon": "icon.png",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
