@@ -11,24 +11,26 @@ let prompt = oldState.prompt;
 
 let input = document.getElementById("inputEN");
 let resultArea = document.getElementById("resultArea");
+let apiKey = document.getElementById("inputAPIKey");
 
-document.getElementById('codeItButton').addEventListener('click', () => {
-	// commentCode();
 
-    vscode.postMessage({ type: 'codeIt', value: input.value });
-
-	console.log('button clicked: ', input.value);
+document.getElementById('submitAPIKey').addEventListener('click', ()=> {
+	vscode.postMessage({ type: 'setAPIKey', value: apiKey.value });
+	console.log('button clicked: ', apiKey.value);
 });
 
+document.getElementById('codeItButton').addEventListener('click', () => {
+    vscode.postMessage({ type: 'codeIt', value: input.value });
+	console.log('button clicked: ', input.value);
+});
 
 document.getElementById('explainButton').addEventListener('click', () => {
 	// commentCode();
 
     vscode.postMessage({ type: 'explainCode'});
-
 	console.log('explain button clicked: ');
 });
-// Handle messages sent from the extension to the webview
+
 window.addEventListener('message', (event) => {
 	const message = event.data; // The json data that the extension sent
 
@@ -38,6 +40,8 @@ window.addEventListener('message', (event) => {
         }
     }
 });
+
+
 
 /**
  * @param {string} color

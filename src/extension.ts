@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
 import axios from "axios";
 import * as dotenv from 'dotenv';
-dotenv.config();
-import * as openai from 'openai';
 import { Configuration, OpenAIApi } from 'openai';
+import * as openai from 'openai';
+dotenv.config();
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -15,7 +15,7 @@ export function activate(context: vscode.ExtensionContext) {
 //basically add open ai api or setup a express server, to do it for you.
 async function fetchCodeByPrompt(prompt: string) {
 	
-	const apikey = process.env.OPENAI_API_KEY;
+	const apikey = "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";
 	if(!apikey){
 		throw new Error('OpenAI API key not found');
 	}
@@ -37,9 +37,8 @@ async function fetchCodeByPrompt(prompt: string) {
 	return output;
 }
 
-
 async function explainCode(selectedText: string) {
-	const apikey = process.env.OPENAI_API_KEY;
+	const apikey = "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";
 	if(!apikey){
 		throw new Error('OpenAI API key not found');
 	}
@@ -91,6 +90,15 @@ class WebViewProvider implements vscode.WebviewViewProvider {
 
 		webviewView.webview.onDidReceiveMessage(data => {
 			switch (data.type) {
+				case 'setAPIKey' :
+					{
+						if(data.value) {const apikey = data.value;
+						console.log(apikey,"jadhcja");}
+						else {
+							console.log("add something mf");
+						}
+						break;
+					}
 				case 'codeIt':
 					{
 						fetchCodeByPrompt(data.value).then(code => {
@@ -116,9 +124,8 @@ class WebViewProvider implements vscode.WebviewViewProvider {
 							vscode.window.showInformationMessage('No text selected');
 							const res = "no text selected";
 						}
-					}
-
-				
+						break;
+					}			
 			}
 		});
 	}
@@ -196,11 +203,13 @@ class WebViewProvider implements vscode.WebviewViewProvider {
                 tags: username/repo:latest
          " class="input-field-a"></textarea>
     </div>
-    <!-- <div class="input-box">
-        <pre>
-            <textarea class="input-field" defaultValue="// Your code here"></textarea>
-        </pre>
-    </div> -->
+	<br/>
+	<span class="flex-row">
+	<div class="input-box">
+	<input type="text" id="inputAPIKey" value="" placeholder="Add your API key" class="input-field">
+</div>
+	<button class="buttonapi" id="submitAPIkey">Add</button>
+</span>
 </div>
 
 
